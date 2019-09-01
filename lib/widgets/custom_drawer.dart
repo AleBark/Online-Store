@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_store_app/tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -19,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(bottom: 8.0),
-                padding: EdgeInsets.fromLTRB(0.0, 36.0, 16.0, 8.0),
+                padding: EdgeInsets.fromLTRB(0.0, 36.0, 16.0, 0.0),
                 height: 170.0,
                 child: Stack(
                   children: <Widget>[
@@ -33,10 +34,41 @@ class CustomDrawer extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
+                    ),
+                    Positioned(
+                      left: 0.0,
+                      bottom: 0.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Hello,",
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              "Sign in | Sign up",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {},
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
-              )
+              ),
+              Divider(),
+              DrawerTile(Icons.home, "Home"),
+              DrawerTile(Icons.list, "Products"),
+              DrawerTile(Icons.location_on, "Find a store"),
+              DrawerTile(Icons.playlist_add_check, "My orders"),
             ],
           )
         ],
