@@ -72,33 +72,56 @@ class _ProductScreenState extends State<ProductScreen> {
                       mainAxisSpacing: 8.0,
                       childAspectRatio: 0.5,
                     ),
-                    children: product.sizes.map(
-                          (s) {
-                            return GestureDetector(
-                              onTap: (){
-                                setState(() {
-                                 size = s;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                  color: s == size ? Theme.of(context)
-                                    .primaryColor : Colors.grey[500] ,
-                                  border: Border.all(
-                                    color: Colors.grey[500],
-                                    width: 3.0
-                                  )
-                                ),
-                                width: 50.0,
-                                alignment: Alignment.center,
-                                child: Text(s),
-                              ),
-                            );
-                          }
-                      ).toList(),
+                    children: product.sizes.map((s) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            size = s;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                              color: s == size
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey[500],
+                              border: Border.all(
+                                  color: Colors.grey[500], width: 3.0)),
+                          width: 50.0,
+                          alignment: Alignment.center,
+                          child: Text(s),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                SizedBox(
+                  height: 44.0,
+                  child: RaisedButton(
+                    onPressed: size != null ? () {} : null,
+                    child: Text(
+                      "Add to cart",
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text("Description", style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500
+                ),),
+                Text(
+                  product.description,
+                  style: TextStyle(fontSize: 16.0),
+                )
               ],
             ),
           )
