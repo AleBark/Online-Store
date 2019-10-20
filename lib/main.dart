@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_store_app/screens/home_screen.dart';
+import 'package:online_store_app/screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +21,7 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Color.fromARGB(255, 4, 125, 141)
       ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
