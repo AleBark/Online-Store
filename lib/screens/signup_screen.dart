@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:online_store_app/screens/signup_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignupScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Sign up"),
         centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Sign Up",
-              style: TextStyle(fontSize: 15.0),
-            ),
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => SignupScreen()));
-            },
-          )
-        ],
+        actions: <Widget>[],
       ),
       body: Form(
         key: _formKey,
@@ -30,8 +17,29 @@ class LoginScreen extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
             TextFormField(
+              decoration: InputDecoration(hintText: "Name"),
+              validator: (text) {
+                if (text.isEmpty || text.length < 3) {
+                  return "Invalid name";
+                } else {
+                  return '';
+                }
+              },
+            ),
+            SizedBox(height: 16.0),
+            TextFormField(
+              decoration: InputDecoration(hintText: "Address"),
+              validator: (text) {
+                if (text.isEmpty || text.length < 3) {
+                  return "Invalid address";
+                } else {
+                  return '';
+                }
+              },
+            ),
+            SizedBox(height: 16.0),
+            TextFormField(
               decoration: InputDecoration(hintText: "E-mail"),
-              keyboardType: TextInputType.emailAddress,
               validator: (text) {
                 if (text.isEmpty || !text.contains("@")) {
                   return "Invalid e-mail";
@@ -54,17 +62,6 @@ class LoginScreen extends StatelessWidget {
               },
               obscureText: true,
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  "Forgot Your Password ?",
-                  textAlign: TextAlign.right,
-                ),
-                padding: EdgeInsets.zero,
-              ),
-            ),
             SizedBox(
               height: 16.0,
             ),
@@ -72,7 +69,7 @@ class LoginScreen extends StatelessWidget {
               height: 44.0,
               child: RaisedButton(
                 child: Text(
-                  "Login",
+                  "Signup",
                   style: TextStyle(
                     fontSize: 18.0,
                   ),
