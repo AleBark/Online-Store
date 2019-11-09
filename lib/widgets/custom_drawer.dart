@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_store_app/models/user_model.dart';
 import 'package:online_store_app/screens/login_screen.dart';
 import 'package:online_store_app/tiles/drawer_tile.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;
@@ -43,33 +45,42 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                       left: 0.0,
                       bottom: 0.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Hello,",
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              "Sign in | Sign up",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) =>
-                                    LoginScreen())
-                              );
-                            },
-                          )
-                        ],
-                      ),
+                      child: ScopedModelDescendant<UserModel>(
+                        builder: (context, child, model){
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Hello, ${!model.isLoggedIn() ? "" : model
+                                    .userData["name"]}",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              GestureDetector(
+                                child: Text(
+                                  !model.isLoggedIn() ?
+                                  "Sign in | Sign up" : "Sign Out",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onTap: () {
+                                  if(!model.isLoggedIn()){
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) =>
+                                          LoginScreen()));
+                                  }else{
+                                    model.signOut();
+                                  }
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      )
                     )
                   ],
                 ),

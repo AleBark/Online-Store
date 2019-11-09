@@ -3,12 +3,22 @@ import 'package:online_store_app/models/user_model.dart';
 import 'package:online_store_app/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text("Login"),
           centerTitle: true,
@@ -37,27 +47,27 @@ class LoginScreen extends StatelessWidget {
                 padding: EdgeInsets.all(16.0),
                 children: <Widget>[
                   TextFormField(
+                    controller: _emailController,
                     decoration: InputDecoration(hintText: "E-mail"),
                     keyboardType: TextInputType.emailAddress,
                     validator: (text) {
                       if (text.isEmpty || !text.contains("@")) {
                         return "Invalid e-mail";
-                      } else {
-                        return '';
                       }
+                      return null;
                     },
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
+                    controller: _passwordController,
                     decoration: InputDecoration(
                       hintText: "Password",
                     ),
                     validator: (text) {
                       if (text.isEmpty || text.length < 6) {
                         return "Invalid password";
-                      } else {
-                        return '';
                       }
+                      return null;
                     },
                     obscureText: true,
                   ),
@@ -90,7 +100,12 @@ class LoginScreen extends StatelessWidget {
                         if (_formKey.currentState.validate()) {
 
                         }
-                        model.signIn();
+                        model.signIn(
+                            email: _emailController.text,
+                            pass: _passwordController.text,
+                            onSuccess: _onSuccess,
+                            onFail: _onFail
+                        );
                       },
                     ),
                   )
@@ -99,5 +114,16 @@ class LoginScreen extends StatelessWidget {
             );
           },
         ));
+  }
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Unsuccessful login"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+    ));
   }
 }

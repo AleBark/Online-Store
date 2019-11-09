@@ -13,7 +13,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
   final _addressController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final _formKey = GlobalKey<FormState>();
 
   @override
