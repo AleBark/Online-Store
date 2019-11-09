@@ -9,7 +9,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -74,7 +73,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_emailController.text.isEmpty) {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Enter your email "
+                                "address"),
+                            backgroundColor: Colors.redAccent,
+                            duration: Duration(seconds: 2),
+                          ));
+                        }else{
+                          model.recoverPass(_emailController.text);
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Check your email!"),
+                            backgroundColor: Colors.blue,
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                      },
                       child: Text(
                         "Forgot Your Password ?",
                         textAlign: TextAlign.right,
@@ -97,15 +112,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-
-                        }
+                        if (_formKey.currentState.validate()) {}
                         model.signIn(
                             email: _emailController.text,
                             pass: _passwordController.text,
                             onSuccess: _onSuccess,
-                            onFail: _onFail
-                        );
+                            onFail: _onFail);
                       },
                     ),
                   )
@@ -115,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         ));
   }
+
   void _onSuccess() {
     Navigator.of(context).pop();
   }
