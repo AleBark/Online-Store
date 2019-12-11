@@ -9,6 +9,7 @@ import 'package:online_store_app/widgets/ship_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'login_screen.dart';
+import 'order_screen.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -94,9 +95,9 @@ class CartScreen extends StatelessWidget {
               ShipCard(),
               CartPrice(() async {
                 String orderId = await model.finishOrder();
-//                if (orderId != null)
-//                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-//                      builder: (context) => OrderScreen(orderId)));
+                if (orderId != null)
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => OrderScreen(orderId)));
               }),
             ],
           );
