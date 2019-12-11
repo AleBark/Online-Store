@@ -10,6 +10,9 @@ class CartModel extends Model {
 
   List<CartProduct> products = [];
 
+  String couponCode;
+  int discountPercentage = 0;
+
   CartModel(this.user) {
     if (user.isLoggedIn()) {
       _loadCartItems();
@@ -19,6 +22,10 @@ class CartModel extends Model {
   static CartModel of(BuildContext context) =>
       ScopedModel.of<CartModel>(context);
 
+  void setCoupon(String couponCode, int discountPercentage){
+    this.couponCode = couponCode;
+    this.discountPercentage = discountPercentage;
+  }
 
   void updatePrices(){
     notifyListeners();
