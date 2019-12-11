@@ -3,20 +3,23 @@ import 'package:online_store_app/datas/product_data.dart';
 
 class CartProduct {
   String cid;
+
   String category;
   String pid;
-  String size;
+
   int quantity;
+  String size;
 
   ProductData productData;
 
   CartProduct();
 
-  CartProduct.fromDocument(DocumentSnapshot documentSnapshot) {
-    cid = documentSnapshot.documentID;
-    category = documentSnapshot.data["category"];
-    quantity = documentSnapshot.data["quantity"];
-    size = documentSnapshot.data["size"];
+  CartProduct.fromDocument(DocumentSnapshot document) {
+    cid = document.documentID;
+    category = document.data["category"];
+    pid = document.data["pid"];
+    quantity = document.data["quantity"];
+    size = document.data["size"];
   }
 
   Map<String, dynamic> toMap() {
