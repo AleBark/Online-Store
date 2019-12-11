@@ -5,7 +5,6 @@ import 'package:online_store_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartModel extends Model {
-
   UserModel user;
 
   List<CartProduct> products = [];
@@ -22,19 +21,37 @@ class CartModel extends Model {
   static CartModel of(BuildContext context) =>
       ScopedModel.of<CartModel>(context);
 
-  void setCoupon(String couponCode, int discountPercentage){
+  void setCoupon(String couponCode, int discountPercentage) {
     this.couponCode = couponCode;
     this.discountPercentage = discountPercentage;
   }
 
-  void updatePrices(){
+  double getProductsPrice() {
+    double price = 0.0;
+    for (CartProduct c in products) {
+      if (c.productData != null) price += c.quantity * c.productData.price;
+    }
+    return price;
+  }
+
+  double getDiscount() {
+    return getProductsPrice() * discountPercentage / 100;
+  }
+
+  double getShipPrice() {
+    return 9.99;
+  }
+
+  void updatePrices() {
     notifyListeners();
   }
 
   void decProduct(CartProduct cartProduct) {
     cartProduct.quantity--;
 
-    Firestore.instance.collection("users").document(user.firebaseUser.uid)
+    Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
@@ -45,7 +62,9 @@ class CartModel extends Model {
   void incProduct(CartProduct cartProduct) {
     cartProduct.quantity++;
 
-    Firestore.instance.collection("users").document(user.firebaseUser.uid)
+    Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
@@ -54,8 +73,10 @@ class CartModel extends Model {
   }
 
   void _loadCartItems() async {
-    QuerySnapshot query = await Firestore.instance.collection("users").document(
-        user.firebaseUser.uid).collection("cart")
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
+        .collection("cart")
         .getDocuments();
 
     products =
