@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:online_store_app/models/cart_model.dart';
 import 'package:online_store_app/models/user_model.dart';
 import 'package:online_store_app/tiles/cart_tile.dart';
+import 'package:online_store_app/widgets/cart_price.dart';
 import 'package:online_store_app/widgets/discount_card.dart';
 import 'package:online_store_app/widgets/ship_card.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -30,77 +31,77 @@ class CartScreen extends StatelessWidget {
           )
         ],
       ),
-      body: ScopedModelDescendant<CartModel>(
-          builder: (context, child, model) {
-            if (model.user.isLoading && UserModel.of(context).isLoggedIn()) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (!UserModel.of(context).isLoggedIn()) {
-              return Container(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_shopping_cart,
-                      size: 80.0, color: Theme
-                          .of(context)
-                          .primaryColor,),
-                    SizedBox(height: 16.0,),
-                    Text("Sign in to add products",
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 16.0,),
-                    RaisedButton(
-                      child: Text("Sign in", style: TextStyle(fontSize: 18.0),),
-                      textColor: Colors.white,
-                      color: Theme
-                          .of(context)
-                          .primaryColor,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) =>
-                                LoginScreen())
-                        );
-                      },
-                    )
-                  ],
+      body: ScopedModelDescendant<CartModel>(builder: (context, child, model) {
+        if (model.user.isLoading && UserModel.of(context).isLoggedIn()) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (!UserModel.of(context).isLoggedIn()) {
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.remove_shopping_cart,
+                  size: 80.0,
+                  color: Theme.of(context).primaryColor,
                 ),
-              );
-            } else if (model.products == null || model.products.length == 0) {
-              return Center(
-                child: Text("Your cart is currently empty :(",
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  "Sign in to add products",
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,),
-              );
-            } else {
-              return ListView(
-                children: <Widget>[
-                  Column(
-                    children: model.products.map(
-                            (product) {
-                          return CartTile(product);
-                        }
-                    ).toList(),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                RaisedButton(
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(fontSize: 18.0),
                   ),
-                  DiscountCard(),
-                  ShipCard(),
-//                  CartPrice(() async {
-//                    String orderId = await model.finishOrder();
-//                    if (orderId != null)
-//                      Navigator.of(context).pushReplacement(
-//                          MaterialPageRoute(builder: (context) =>
-//                              OrderScreen(orderId))
-//                      );
-//                  }),
-                ],
-              );
-            }
-          }
-      ),
+                  textColor: Colors.white,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                )
+              ],
+            ),
+          );
+        } else if (model.products == null || model.products.length == 0) {
+          return Center(
+            child: Text(
+              "Your cart is currently empty :(",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else {
+          return ListView(
+            children: <Widget>[
+              Column(
+                children: model.products.map((product) {
+                  return CartTile(product);
+                }).toList(),
+              ),
+              DiscountCard(),
+              ShipCard(),
+              CartPrice(() async {
+                String orderId = await model.finishOrder();
+//                if (orderId != null)
+//                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+//                      builder: (context) => OrderScreen(orderId)));
+              }),
+            ],
+          );
+        }
+      }),
     );
   }
 }
