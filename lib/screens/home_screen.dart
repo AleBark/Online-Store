@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_store_app/tabs/home_tab.dart';
 import 'package:online_store_app/tabs/order_tab.dart';
+import 'package:online_store_app/tabs/places_tab.dart';
 import 'package:online_store_app/tabs/products_tab.dart';
 import 'package:online_store_app/widgets/cart_button.dart';
 import 'package:online_store_app/widgets/custom_drawer.dart';
@@ -27,8 +28,13 @@ class HomeScreen extends StatelessWidget {
             ),
             drawer: CustomDrawer(_pageController),
             floatingActionButton: CartButton()),
-        Container(
-          color: Colors.yellow,
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Find a store"),
+            centerTitle: true,
+          ),
+          body: PlacesTab(),
+          drawer: CustomDrawer(_pageController),
         ),
         Scaffold(
           appBar: AppBar(
