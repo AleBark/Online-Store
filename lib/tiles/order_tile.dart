@@ -51,7 +51,7 @@ class OrderTile extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          _buildCircle("1", "Despatch from Sorting Center", status, 1),
+                          _buildCircle("1", "Despatching", status, 1),
                           Container(
                             height: 1.0,
                             width: 40.0,
@@ -63,7 +63,7 @@ class OrderTile extends StatelessWidget {
                             width: 40.0,
                             color: Colors.grey[500],
                           ),
-                          _buildCircle("3", "Arrived at destination", status, 3),
+                          _buildCircle("3", "Arrived", status, 3),
                         ],
                       )
                     ],
