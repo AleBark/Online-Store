@@ -5,9 +5,6 @@ import 'package:online_store_app/tiles/category_tile.dart';
 class ProductsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
-
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection("products").getDocuments(),
       builder: (context, snapshot) {
@@ -16,12 +13,13 @@ class ProductsTab extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-
           var dividedTiles = ListTile.divideTiles(
-              tiles: snapshot.data.documents.map((doc) {
-            return CategoryTile(doc);
-          }).toList(),
-          color: Colors.grey[500]).toList();
+                  context: context,
+                  tiles: snapshot.data.documents.map((doc) {
+                    return CategoryTile(doc);
+                  }).toList(),
+                  color: Colors.grey[500])
+              .toList();
 
           return ListView(
             children: dividedTiles,
